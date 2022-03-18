@@ -47,6 +47,3 @@ export PATH="/usr/local/clang/bin:$PATH"
 
 go install golang.org/x/tools/cmd/cover@latest
 go install github.com/mattn/goveralls@latest
-
-# Install golangci-lint
-curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.31.0
