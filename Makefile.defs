@@ -62,7 +62,7 @@ GO_TAGS_FLAGS = osusergo
 # RACE is specified.
 GOTEST_COVER_OPTS =
 
-GOLANGCILINT_WANT_VERSION = 1.44.2
+GOLANGCILINT_WANT_VERSION = 1.45.0
 GOLANGCILINT_VERSION = $(shell golangci-lint version 2>/dev/null)
 
 VERSION = $(shell cat $(dir $(lastword $(MAKEFILE_LIST)))/VERSION)
