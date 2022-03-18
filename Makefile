@@ -473,10 +473,20 @@ govet: ## Run govet on Go source files in the repository.
     ./test/k8s/... \
     ./tools/...
 
-lint: ## Run golangci-lint and check if the helper headers in bpf/mock are up-to-date.
+golangci-lint: ## Run golangci-lint
+ifneq (,$(findstring $(GOLANGCILINT_WANT_VERSION),$(GOLANGCILINT_VERSION)))
+golangci-lint:
 	@$(ECHO_CHECK) golangci-lint
 	$(QUIET) golangci-lint run
+else
+golangci-lint:
+	$(QUIET) $(CONTAINER_ENGINE) run --rm -v `pwd`:/app -w /app docker.io/golangci/golangci-lint:v$(GOLANGCILINT_WANT_VERSION) golangci-lint run
+endif
+
+bpf-mock-check: ## Check if the helper headers in bpf/mock are up-to-date.
 	$(QUIET) $(MAKE) $(SUBMAKEOPTS) -C bpf/mock/ check_helper_headers
+
+lint: golangci-lint bpf-mock-check
 
 logging-subsys-field: ## Validate logrus subsystem field for logs in Go source code.
 	@$(ECHO_CHECK) contrib/scripts/check-logging-subsys-field.sh
